@@ -7,7 +7,7 @@ LINK = "https://www.kflaph.ca/en/healthy-living/status-of-cases-in-kfla.aspx"
 LINK2 = "https://app.powerbi.com/view?r=eyJrIjoiNTJjYWM2NjgtNTRhZi00NDcyLTkxYzEtZDlmZTZjMDRmN2QzIiwidCI6Ijk4M2JmOTVjLTAyNDYtNDg5My05MmI4LTgwMWJkNTEwYjRmYSJ9"
 
 
-class Bot():
+class Bot:
     def __init__(self):
         op = Options()
         op.add_argument("--headless")

@@ -23,13 +23,14 @@ def displayColor(color='w'):
         green.off()
         blue.off()
     elif color == 'o':
-        pass
-    elif color == 'y':
-        green.value = 0.8
+        green.value = 0.05
         red.value = 1.0
 
-        red.on()
-        green.on()
+        blue.off()
+    elif color == 'y':
+        green.value = 0.25
+        red.value = 1.0
+
         blue.off()
     elif color == 'g':
         red.off()
@@ -46,18 +47,18 @@ def displayColor(color='w'):
 # Sub in 2 for Red, 3-Orange, 4-Yellow, and 5-Green
 while True:
     # # Red
-    # displayColor('r')
-    # sleep(1)
+    displayColor('r')
+    sleep(1)
 
     # Orange
-    # TODO: Figure out how to display orange with rgb led.
-
+    displayColor('o')
+    sleep(1)
 
     # Yellow
     displayColor('y')
     sleep(1)
 
     # # Green
-    # displayColor('g')
-    # sleep(1)
+    displayColor('g')
+    sleep(1)
 

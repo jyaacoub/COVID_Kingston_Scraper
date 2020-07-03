@@ -26,7 +26,7 @@ class Bot:
         op.add_argument("--headless")
         op.add_argument("--disable-gpu")
         self.driver = webdriver.Chrome(options=op)
-        self.driver.implicitly_wait(4)
+        self.driver.implicitly_wait(10)
 
     def refreshPage(self):
         self.driver.refresh()

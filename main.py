@@ -15,7 +15,9 @@ red = PWMLED(22, frequency=100)
 green = PWMLED(27, frequency=50)
 blue = PWMLED(17, frequency=25)
 
-red.blink(n=10)
+red.blink(n=3, background=False)
+green.blink(n=3, background=False)
+blue.blink(n=3, background=False)
 
 # Sub in 2 for Red, 3-Orange, 4-Yellow, and 5-Green
 # while True:

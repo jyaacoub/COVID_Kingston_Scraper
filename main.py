@@ -10,16 +10,22 @@ from time import sleep
 red = LED(22)
 green = LED(27)
 blue = LED(17)
-
+# Sub in 2 for Red, 3-Orange, 4-Yellow, and 5-Green
 while True:
+    # Red
     red.on()
     sleep(1)
-    red.off()
 
+    # Orange
+    # TODO: Figure out how to display orange with rgb led.
+
+    # Yellow
     green.on()
     sleep(1)
+
+    # Green
+    red.off()
+    sleep(1)
+
     green.off()
 
-    blue.on()
-    sleep(1)
-    blue.off()

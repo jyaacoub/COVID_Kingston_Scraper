@@ -10,7 +10,7 @@ LINK2 = "https://app.powerbi.com/view?r=eyJrIjoiNTJjYWM2NjgtNTRhZi00NDcyLTkxYzEt
 class Bot:
     def __init__(self):
         op = Options()
-        op.add_argument("--headless")
+        # op.add_argument("--headless")
         op.add_argument("--disable-gpu")
         self.driver = webdriver.Chrome(options=op)
         self.driver.implicitly_wait(4)

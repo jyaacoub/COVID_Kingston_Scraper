@@ -7,9 +7,9 @@ from scraper import Bot
 from gpiozero import LED, PWMLED
 from time import sleep
 
-# red = LED(22)
-# green = LED(27)
-# blue = LED(17)
+red = LED(22)
+green = LED(27)
+blue = LED(17)
 
 
 # Sub in 2 for Red, 3-Orange, 4-Yellow, and 5-Green

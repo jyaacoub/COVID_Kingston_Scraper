@@ -42,9 +42,9 @@ def displayColor(color='w'):
 
 # Sub in 2 for Red, 3-Orange, 4-Yellow, and 5-Green
 while True:
-    # Red
-    displayColor('r')
-    sleep(1)
+    # # Red
+    # displayColor('r')
+    # sleep(1)
 
     # Orange
     # TODO: Figure out how to display orange with rgb led.
@@ -54,7 +54,7 @@ while True:
     displayColor('y')
     sleep(1)
 
-    # Green
-    displayColor('g')
-    sleep(1)
+    # # Green
+    # displayColor('g')
+    # sleep(1)
 

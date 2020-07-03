@@ -7,18 +7,43 @@ from scraper import Bot
 from gpiozero import LED, PWMLED
 from time import sleep
 
+red = PWMLED(22)
+green = PWMLED(27)
+blue = PWMLED(17)
+
+
+def displayColor(color='w'):
+
+    if color == 'w':
+        red.on()
+        green.on()
+        blue.on()
+    elif color == 'r':
+        red.on()
+        green.off()
+        blue.off()
+    elif color == 'o':
+        pass
+    elif color == 'y':
+        red.on()
+        green.on()
+        blue.off()
+    elif color == 'g':
+        red.off()
+        green.on()
+        blue.off()
+
+
+
 # red = LED(22)
 # green = LED(27)
 # blue = LED(17)
 
-red = PWMLED(22, frequency=100)
-green = PWMLED(27, initial_value=0.1, frequency=100)
-blue = PWMLED(17, frequency=25)
 
 # Sub in 2 for Red, 3-Orange, 4-Yellow, and 5-Green
 while True:
     # Red
-    red.on()
+    displayColor('r')
     sleep(1)
 
     # Orange
@@ -26,12 +51,10 @@ while True:
 
 
     # Yellow
-    green.on()
+    displayColor('y')
     sleep(1)
 
     # Green
-    red.off()
+    displayColor('g')
     sleep(1)
-
-    green.off()
 

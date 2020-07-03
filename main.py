@@ -12,32 +12,26 @@ from time import sleep
 # blue = LED(17)
 
 red = PWMLED(22, frequency=100)
-green = PWMLED(27, frequency=100)
+green = PWMLED(27, initial_value=0.1, frequency=100)
 blue = PWMLED(17, frequency=25)
 
-green.value = 0.01
-sleep(5)
-# red.blink(n=3, background=False)
-# green.blink(n=3, background=False)
-# blue.blink(n=3, background=False)
-
 # Sub in 2 for Red, 3-Orange, 4-Yellow, and 5-Green
-# while True:
-#     # Red
-#     red.on()
-#     sleep(1)
-#
-#     # Orange
-#     # TODO: Figure out how to display orange with rgb led.
-#
-#
-#     # Yellow
-#     green.on()
-#     sleep(1)
-#
-#     # Green
-#     red.off()
-#     sleep(1)
-#
-#     green.off()
+while True:
+    # Red
+    red.on()
+    sleep(1)
+
+    # Orange
+    # TODO: Figure out how to display orange with rgb led.
+
+
+    # Yellow
+    green.on()
+    sleep(1)
+
+    # Green
+    red.off()
+    sleep(1)
+
+    green.off()
 

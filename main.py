@@ -23,4 +23,3 @@ while True:
     blue.on()
     sleep(1)
     blue.off()
-    sleep(1)

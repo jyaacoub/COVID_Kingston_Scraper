@@ -15,7 +15,7 @@ red = PWMLED(22, frequency=100)
 green = PWMLED(27, frequency=1)
 blue = PWMLED(17, frequency=25)
 
-red.blink(n=3, background=False)
+red.pulse(n=3, background=False)
 green.blink(n=3, background=False)
 blue.blink(n=3, background=False)
 

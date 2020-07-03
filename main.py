@@ -14,14 +14,13 @@ blue = LED(17)
 while True:
     red.on()
     sleep(1)
+    red.off()
+
     green.on()
     sleep(1)
-    blue.on()
-    sleep(1)
-
-    red.off()
-    sleep(1)
     green.off()
+
+    blue.on()
     sleep(1)
     blue.off()
     sleep(1)

@@ -12,7 +12,7 @@ from time import sleep
 # blue = LED(17)
 
 red = PWMLED(22, frequency=100)
-green = PWMLED(27, frequency=50)
+green = PWMLED(27, frequency=1)
 blue = PWMLED(17, frequency=25)
 
 red.blink(n=3, background=False)

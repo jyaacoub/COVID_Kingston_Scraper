@@ -7,10 +7,21 @@ from scraper import Bot
 from gpiozero import LED
 from time import sleep
 
-led = LED(17)
+red = LED(22)
+green = LED(27)
+blue = LED(17)
 
 while True:
-    led.on()
+    red.on()
     sleep(1)
-    led.off()
+    green.on()
+    sleep(1)
+    blue.on()
+    sleep(1)
+
+    red.off()
+    sleep(1)
+    green.off()
+    sleep(1)
+    blue.off()
     sleep(1)

@@ -25,6 +25,9 @@ def displayColor(color='w'):
     elif color == 'o':
         pass
     elif color == 'y':
+        green.value = 0.8
+        red.value = 1.0
+
         red.on()
         green.on()
         blue.off()

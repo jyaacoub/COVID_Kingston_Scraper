@@ -2,8 +2,8 @@ from scraper import Bot
 
 bot = Bot()
 bot.requestContent()
+print("Community Status:|" + bot.getCommunityStatus() + '|')
 print("Active Cases:", bot.getCases())
-print("Community Status:", bot.getCommunityStatus())
 # from gpiozero import PWMLED
 # from time import sleep
 #

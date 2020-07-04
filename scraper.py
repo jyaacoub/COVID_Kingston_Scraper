@@ -7,25 +7,21 @@ LINK = "https://www.kflaph.ca/en/healthy-living/status-of-cases-in-kfla.aspx"
 LINK2 = "https://app.powerbi.com/view?r=eyJrIjoiNTJjYWM2NjgtNTRhZi00NDcyLTkxYzEtZDlmZTZjMDRmN2QzIiwidCI6Ijk4M2JmOTVjLTAyNDYtNDg5My05MmI4LTgwMWJkNTEwYjRmYSJ9"
 
 # Sub in 2 for the number of cases resolved or 5 for the number of cases total.
-casesXPATH = "/html/body/div[1]/ui-view/div/div[1]/div/div/div/div/exploration-container/" \
+casesRow = "/html/body/div[1]/ui-view/div/div[1]/div/div/div/div/exploration-container/" \
              "exploration-container-modern/div/div/exploration-host/div/div/exploration/div/explore-canvas-modern/" \
-             "div/div[2]/div/div[2]/div[2]/visual-container-repeat/visual-container-group[8]/transform/div/div[2]/" \
-             "visual-container-modern[{case}]"
+             "div/div[2]/div/div[2]/div[2]/visual-container-repeat/visual-container-group[8]/transform/div/div[2]"
 
-# Sub in 2 for Red, 3-Orange, 4-Yellow, and 5-Green
+casesXPATH = casesRow + "/visual-container-modern[{case}]"
+
 colorsRow = "/html/body/div[1]/ui-view/div/div[1]/div/div/div/div/exploration-container/" \
             "exploration-container-modern/div/div/exploration-host/div/div/exploration/div/explore-canvas-modern/" \
             "div/div[2]/div/div[2]/div[2]/visual-container-repeat/visual-container-group[3]/transform/div/div[2]"
 
+# Sub in 2 for Red, 3-Orange, 4-Yellow, and 5-Green
 colorsXPATH = colorsRow + "/visual-container-modern[{color}]/transform/div/div[3]/div"
-
 
 WHITE = 'rgba(255, 255, 255, 1)'    # The background color for white
 
-# "/html/body/div[1]/ui-view/div/div[1]/div/div/div/div/exploration-container/exploration-container-modern/div/div/exploration-host/div/div/exploration/div/explore-canvas-modern/div/div[2]/div/div[2]/div[2]/visual-container-repeat/visual-container-group[3]/transform/div/div[2]/visual-container-modern[4]/transform/div/div[3]/div/visual-modern/div"
-# "/html/body/div[1]/ui-view/div/div[1]/div/div/div/div/exploration-container/exploration-container-modern/div/div/exploration-host/div/div/exploration/div/explore-canvas-modern/div/div[2]/div/div[2]/div[2]/visual-container-repeat/visual-container-group[3]/transform/div/div[2]/visual-container-modern[2]/transform/div/div[3]/div/visual-modern/div"
-# "/html/body/div[1]/ui-view/div/div[1]/div/div/div/div/exploration-container/exploration-container-modern/div/div/exploration-host/div/div/exploration/div/explore-canvas-modern/div/div[2]/div/div[2]/div[2]/visual-container-repeat/visual-container-group[3]/transform/div/div[2]/visual-container-modern[3]/transform/div/div[3]/div/visual-modern/div"
-# "/html/body/div[1]/ui-view/div/div[1]/div/div/div/div/exploration-container/exploration-container-modern/div/div/exploration-host/div/div/exploration/div/explore-canvas-modern/div/div[2]/div/div[2]/div[2]/visual-container-repeat/visual-container-group[3]/transform/div/div[2]/visual-container-modern[5]/transform/div/div[3]/div"
 class Bot:
     def __init__(self):
         op = Options()
@@ -44,52 +40,59 @@ class Bot:
         self.driver.get(link)
 
     def getCases(self):
-        numCasesLine = ''
-        numCasesResolvedLine = ''
+        # Getting the order of the elements:
+        elements = self.driver.find_elements(By.XPATH, casesRow + '/visual-container-modern')
+        while elements[0].text == '':
+            elements = self.driver.find_elements(By.XPATH, casesRow + '/visual-container-modern')
+            print("<", end="")
+        print("Got Total Case Numbers Row!")
 
-        # Polls the site until I get the data needed
-        while numCasesLine == '':
-            try:
-                numCasesLine = self.driver.find_element(By.XPATH, casesXPATH.format(case=4)).text
-            except:
-                numCasesLine = self.driver.find_element(By.XPATH, casesXPATH.format(case=5)).text
+        numCasesResolved = ''
+        numDeaths = ''
+        numCasesTot = ''
 
-        while numCasesResolvedLine == '':
-            try:
-                numCasesResolvedLine = self.driver.find_element(By.XPATH, casesXPATH.format(case=3)).text
-            except:
-                numCasesResolvedLine = self.driver.find_element(By.XPATH, casesXPATH.format(case=2)).text
+        for order, elm in enumerate(elements):
+            elmText = elm.text
+            # Skipping unimportant elements:
+            if elmText == 'Total \nCase\nNumbers' or '# of Health Care Workers Positive' in elm.text:
+                continue
 
-        numCases = int(numCasesLine.split("\n")[0])
-        numCasesResolved = int(numCasesResolvedLine.split("\n")[0])
-        currActive = numCases - numCasesResolved
+            if 'Resolved' in elmText:
+                numCasesResolved = int(elmText.split("\n")[0])
+            elif 'Deaths' in elmText:
+                numDeaths = int(elmText.split("\n")[0])
+            else:
+                numCasesTot = int(elmText.split("\n")[0])
 
+        print("numCasesResolved: ", numCasesResolved)
+        print("numDeaths: ", numDeaths)
+        print("numCasesTot:", numCasesTot)
+
+        currActive = numCasesTot - numDeaths - numCasesResolved
         return currActive
 
     def getCommunityStatus(self):
-        # getting the order of the elements:
-        elements = self.driver.find_elements(By.XPATH, colorsRow+'/visual-container-modern')
+        # Getting the order of the elements:
+        elements = self.driver.find_elements(By.XPATH, colorsRow + '/visual-container-modern')
         while elements[0].text == '':
-            elements = self.driver.find_elements(By.XPATH, colorsRow+'/visual-container-modern')
-
-        for elm in elements:
-            print(elm.text, "\n________")
+            elements = self.driver.find_elements(By.XPATH, colorsRow + '/visual-container-modern')
+            print(">", end="")
+        print("Got Community Status Row!")
 
         for order, elm in enumerate(elements):
-            print(order, elm.text)
             if elm.text == 'Overall \nCommunity\nStatus':
                 continue
-            colorElm = elm.find_element(By.XPATH, ".//transform/div/div[3]/div")
-            print(colorElm.text, end=" | ")
 
-            bgcolor = colorElm.value_of_css_property("background-color")
-            print(bgcolor, "\n______________")
+            colorElm = elm.find_element(By.XPATH, ".//transform/div/div[3]/div")
+            bgColor = colorElm.value_of_css_property("background-color")
+
             # Checking to see if that element color has been changed from its default white
             # if it has then that is the current community status
-            if bgcolor != WHITE:
-                return colorElm.text
+            if bgColor != WHITE:
+                return colorElm.text.strip()
 
 
-bot = Bot()
-bot.requestContent()
-print("community staus: ", bot.getCommunityStatus())
+# bot = Bot()
+# bot.requestContent()
+# print("Community Status:|" + bot.getCommunityStatus() + '|')
+# print("Active Cases:", bot.getCases())

@@ -7,7 +7,6 @@ from scraper import Bot
 from gpiozero import PWMLED
 from time import sleep
 
-<<<<<<< HEAD
 red = PWMLED(5)
 green = PWMLED(6)
 blue = PWMLED(13)
@@ -38,68 +37,23 @@ def displayColor(color='w'):
         green.on()
         blue.off()
 
-
-
-# red = LED(22)
-# green = LED(27)
-# blue = LED(17)
-
-
 # Sub in 2 for Red, 3-Orange, 4-Yellow, and 5-Green
-while True:
-    # # Red
-    displayColor('r')
-    sleep(1)
+#while True:
+    # Red
+   # displayColor('r')
+   # sleep(1)
 
     # Orange
-    displayColor('o')
-    sleep(1)
+   # displayColor('o')
+   # sleep(1)
 
     # Yellow
-    displayColor('y')
-    sleep(1)
+   # displayColor('y')
+   # sleep(1)
 
-    # # Green
-    displayColor('g')
-    sleep(1)
-=======
-# red = PWMLED(22)
-# green = PWMLED(27)
-# blue = PWMLED(17)
-#
-# def displayColor(color='w'):
-#     if color == 'w':
-#         red.on()
-#         green.on()
-#         blue.on()
-#     elif color == 'r':
-#         red.on()
-#         green.off()
-#         blue.off()
-#     elif color == 'o':
-#         green.value = 0.05
-#         red.value = 1.0
-#
-#         blue.off()
-#     elif color == 'y':
-#         green.value = 0.25
-#         red.value = 1.0
-#
-#         blue.off()
-#     elif color == 'g':
-#         red.off()
-#         green.on()
-#         blue.off()
-#
-# while True:
-#     displayColor('r')
-#     sleep(1)
-#     displayColor('o')
-#     sleep(1)
-#     displayColor('y')
-#     sleep(1)
-#     displayColor('g')
-#     sleep(1)
+    # Green
+   # displayColor('g')
+   # sleep(1)
 
 # code modified, tweaked and tailored from code by bertwert
 # on RPi forum thread topic 91796
@@ -152,5 +106,4 @@ try:
             GPIO.output(digits[digit], 1)
 finally:
     GPIO.cleanup()
->>>>>>> 060c75822641f4c0f7fcc7f925c7e34ebeb3d7e7
 

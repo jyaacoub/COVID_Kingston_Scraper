@@ -89,3 +89,6 @@ class Bot:
             if color != WHITE:
                 return colorS
 
+bot = Bot()
+bot.requestContent()
+bot.getCommunityStatus()

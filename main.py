@@ -7,9 +7,9 @@ from scraper import Bot
 from gpiozero import LED, PWMLED
 from time import sleep
 
-red = PWMLED(22)
-green = PWMLED(27)
-blue = PWMLED(17)
+red = PWMLED(5)
+green = PWMLED(6)
+blue = PWMLED(13)
 
 
 def displayColor(color='w'):

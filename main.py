@@ -1,9 +1,9 @@
 from scraper import Bot
 
-# bot = Bot()
-# bot.requestContent()
-# print("Active Cases:", bot.getCases())
-# print("Community Status:", bot.getCommunityStatus())
+bot = Bot()
+bot.requestContent()
+print("Active Cases:", bot.getCases())
+print("Community Status:", bot.getCommunityStatus())
 from gpiozero import PWMLED
 from time import sleep
 
@@ -107,7 +107,7 @@ try:
                 else:
                     GPIO.output(25, 0)
             GPIO.output(digits[digit], 0)
-            time.sleep(0.001)
+            time.sleep(0.1)
             GPIO.output(digits[digit], 1)
 finally:
     GPIO.cleanup()

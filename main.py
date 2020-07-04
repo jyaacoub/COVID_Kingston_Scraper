@@ -45,6 +45,7 @@ def displayColor(color='White'):
 while True:
     displayColor(communityStatus)
     print(time.time())
+    time.sleep(1)
 
 # # Sub in 2 for Red, 3-Orange, 4-Yellow, and 5-Green
 # #while True:

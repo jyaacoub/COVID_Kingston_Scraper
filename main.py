@@ -114,7 +114,7 @@ try:
                 else:
                     GPIO.output(25, 0)
             GPIO.output(digits[digit], 0)
-            time.sleep(0.001)
+            time.sleep(1)
             GPIO.output(digits[digit], 1)
 finally:
     GPIO.cleanup()

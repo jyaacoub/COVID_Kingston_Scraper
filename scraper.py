@@ -13,14 +13,19 @@ casesXPATH = "/html/body/div[1]/ui-view/div/div[1]/div/div/div/div/exploration-c
              "visual-container-modern[{case}]"
 
 # Sub in 2 for Red, 3-Orange, 4-Yellow, and 5-Green
-colorsXPATH = "/html/body/div[1]/ui-view/div/div[1]/div/div/div/div/exploration-container/" \
-              "exploration-container-modern/div/div/exploration-host/div/div/exploration/div/explore-canvas-modern/" \
-              "div/div[2]/div/div[2]/div[2]/visual-container-repeat/visual-container-group[3]/transform/div/div[2]/" \
-              "visual-container-modern[{color}]/transform/div/div[3]/div"
+colorsRow = "/html/body/div[1]/ui-view/div/div[1]/div/div/div/div/exploration-container/" \
+            "exploration-container-modern/div/div/exploration-host/div/div/exploration/div/explore-canvas-modern/" \
+            "div/div[2]/div/div[2]/div[2]/visual-container-repeat/visual-container-group[3]/transform/div/div[2]"
+
+colorsXPATH = colorsRow + "/visual-container-modern[{color}]/transform/div/div[3]/div"
+
 
 WHITE = 'rgba(255, 255, 255, 1)'    # The background color for white
 
-
+# "/html/body/div[1]/ui-view/div/div[1]/div/div/div/div/exploration-container/exploration-container-modern/div/div/exploration-host/div/div/exploration/div/explore-canvas-modern/div/div[2]/div/div[2]/div[2]/visual-container-repeat/visual-container-group[3]/transform/div/div[2]/visual-container-modern[4]/transform/div/div[3]/div/visual-modern/div"
+# "/html/body/div[1]/ui-view/div/div[1]/div/div/div/div/exploration-container/exploration-container-modern/div/div/exploration-host/div/div/exploration/div/explore-canvas-modern/div/div[2]/div/div[2]/div[2]/visual-container-repeat/visual-container-group[3]/transform/div/div[2]/visual-container-modern[2]/transform/div/div[3]/div/visual-modern/div"
+# "/html/body/div[1]/ui-view/div/div[1]/div/div/div/div/exploration-container/exploration-container-modern/div/div/exploration-host/div/div/exploration/div/explore-canvas-modern/div/div[2]/div/div[2]/div[2]/visual-container-repeat/visual-container-group[3]/transform/div/div[2]/visual-container-modern[3]/transform/div/div[3]/div/visual-modern/div"
+# "/html/body/div[1]/ui-view/div/div[1]/div/div/div/div/exploration-container/exploration-container-modern/div/div/exploration-host/div/div/exploration/div/explore-canvas-modern/div/div[2]/div/div[2]/div[2]/visual-container-repeat/visual-container-group[3]/transform/div/div[2]/visual-container-modern[5]/transform/div/div[3]/div"
 class Bot:
     def __init__(self):
         op = Options()
@@ -32,7 +37,7 @@ class Bot:
     def refreshPage(self):
         self.driver.refresh()
 
-    def shutdownBot(self):
+    def quit(self):
         self.driver.quit()
 
     def requestContent(self, link=LINK2):
@@ -62,44 +67,25 @@ class Bot:
         return currActive
 
     def getCommunityStatus(self):
-        red = self.driver.find_element(By.XPATH, colorsXPATH.format(color=2))
+        # getting the order of the elements:
+        order = self.driver.find_element(By.XPATH, colorsRow).text
+        while order == '':
+            order = self.driver.find_element(By.XPATH, colorsRow).text
 
-        # while loop ensures that the page has properly loaded before getting data.
-        while red.text == '':
-            red = self.driver.find_element(By.XPATH, colorsXPATH.format(color=2))
-        red = red.value_of_css_property("background-color")
-        # Checking to see if that element color has been changed from its default white
-        # if it has then that is the current community status
-        if red != WHITE:
-            return "red"
-
-        orange = self.driver.find_element(By.XPATH, colorsXPATH.format(color=3))
-
-        # while loop ensures that the page has properly loaded before getting data.
-        while orange.text == '':
-            orange = self.driver.find_element(By.XPATH, colorsXPATH.format(color=3))
-        orange = orange.value_of_css_property("background-color")
-        if orange != WHITE:
-            return "orange"
-
-        yellow = self.driver.find_element(By.XPATH, colorsXPATH.format(color=4))
-
-        # while loop ensures that the page has properly loaded before getting data.
-        while yellow.text == '':
-            yellow = self.driver.find_element(By.XPATH, colorsXPATH.format(color=4))
-        yellow = yellow.value_of_css_property("background-color")
-
-        if yellow != WHITE:
-            return "yellow"
-
-        green = self.driver.find_element(By.XPATH, colorsXPATH.format(color=5))
-
-        # while loop ensures that the page has properly loaded before getting data.
-        while green.text == '':
-            green = self.driver.find_element(By.XPATH, colorsXPATH.format(color=5))
-        green = green.value_of_css_property("background-color")
-        if green != WHITE:
-            return 'green'
+        orderList = order.split('\n')
+        print(orderList)
 
 
-# git p
+        for colorS, x in zip(('red', 'orange', 'yellow', 'green'), [1, 2, 3, 4]):
+            colorElm = self.driver.find_element(By.XPATH, colorsXPATH.format(color=x))
+
+            # # while loop ensures that the page has properly loaded before getting data.
+            # while colorElm.text == '':
+            #     colorElm = self.driver.find_element(By.XPATH, colorsXPATH.format(color=x))
+            color = colorElm.value_of_css_property("background-color")
+            print(colorS, x, colorElm.text)
+            # Checking to see if that element color has been changed from its default white
+            # if it has then that is the current community status
+            if color != WHITE:
+                return colorS
+

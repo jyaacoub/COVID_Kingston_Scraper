@@ -62,48 +62,48 @@ def main():
         time.sleep(1)
 
 
-main()
+# main()
 
-# # code modified, tweaked and tailored from code by bertwert
-# # on RPi forum thread topic 91796
-# import RPi.GPIO as GPIO
-# import time
-#
-# GPIO.setmode(GPIO.BCM)
-#
-# # GPIO ports for the 7seg pins
-# # These are in order from the top segment going all the way around clockwise
-# # the last two segment pins are the middle segment and the dot, respectfully
-# segments = (11, 4, 23, 8, 7, 10, 18, 25)
-# # 7seg_segment_pins (11,7,4,2,1,10,5,3) +  220R
-#
-# for segment in segments:
-#     GPIO.setup(segment, GPIO.OUT)
-#     GPIO.output(segment, 0)
-#
-# # GPIO ports for the digit 0-3 pins
-# digits = (22, 27, 17, 24)
-# # 7seg_digit_pins (12,9,8,6) digits 0-3 respectively
-#
-# for digit in digits:
-#     GPIO.setup(digit, GPIO.OUT)
-#     GPIO.output(digit, 1)
-#
-# # Taking a segment pin to ground (0) activates that segment
-# num = {' ': (1,1,1,1,1,1,1,1),
-#        '.': (1,1,1,1,1,1,1,0),
-#        '0': (0,0,0,0,0,0,1,1),
-#        '1': (1,0,0,1,1,1,1,1),
-#        '2': (0,0,1,0,0,1,0,1),
-#        '3': (0,0,0,0,1,1,0,1),
-#        '4': (1,0,0,1,1,0,0,1),
-#        '5': (0,1,0,0,1,0,0,1),
-#        '6': (0,1,0,0,0,0,0,1),
-#        '7': (0,0,0,1,1,1,1,1),
-#        '8': (0,0,0,0,0,0,0,1),
-#        '9': (0,0,0,0,1,0,0,1)}
-#
-#
+# code modified, tweaked and tailored from code by bertwert
+# on RPi forum thread topic 91796
+import RPi.GPIO as GPIO
+import time
+
+GPIO.setmode(GPIO.BCM)
+
+# GPIO ports for the 7seg pins
+# These are in order from the top segment going all the way around clockwise
+# the last two segment pins are the middle segment and the dot, respectfully
+segments = (11, 4, 23, 8, 7, 10, 18, 25)
+# 7seg_segment_pins (11,7,4,2,1,10,5,3) +  220R
+
+for segment in segments:
+    GPIO.setup(segment, GPIO.OUT)
+    GPIO.output(segment, 0)
+
+# GPIO ports for the digit 0-3 pins
+digits = (22, 27, 17, 24)
+# 7seg_digit_pins (12,9,8,6) digits 0-3 respectively
+
+for digit in digits:
+    GPIO.setup(digit, GPIO.OUT)
+    GPIO.output(digit, 1)
+
+# Taking a segment pin to ground (0) activates that segment
+num = {' ': (1,1,1,1,1,1,1,1),
+       '.': (1,1,1,1,1,1,1,0),
+       '0': (0,0,0,0,0,0,1,1),
+       '1': (1,0,0,1,1,1,1,1),
+       '2': (0,0,1,0,0,1,0,1),
+       '3': (0,0,0,0,1,1,0,1),
+       '4': (1,0,0,1,1,0,0,1),
+       '5': (0,1,0,0,1,0,0,1),
+       '6': (0,1,0,0,0,0,0,1),
+       '7': (0,0,0,1,1,1,1,1),
+       '8': (0,0,0,0,0,0,0,1),
+       '9': (0,0,0,0,1,0,0,1)}
+
+
 # try:
 #     while True:
 #         n = time.ctime()[11:13]+time.ctime()[14:16]
@@ -121,12 +121,12 @@ main()
 # finally:
 #     GPIO.cleanup()
 
-# try:
-#     while True:
-#         for numS, numP in num.items():
-#             print(numS, numP)
-#             for pinLvl, seg in zip(numP, segments):
-#                 GPIO.output(seg, pinLvl)
-#             time.sleep(1)
-# finally:
-#     GPIO.cleanup()
+try:
+    while True:
+        for numS, numP in num.items():
+            print(numS, numP)
+            for pinLvl, seg in zip(numP, segments):
+                GPIO.output(seg, pinLvl)
+            time.sleep(1)
+finally:
+    GPIO.cleanup()

@@ -68,27 +68,28 @@ class Bot:
 
     def getCommunityStatus(self):
         # getting the order of the elements:
-        order = self.driver.find_element(By.XPATH, colorsRow).text
-        while order == '':
-            order = self.driver.find_element(By.XPATH, colorsRow).text
+        elements = self.driver.find_elements(By.XPATH, colorsRow+'/visual-container-modern')
+        while elements[0].text == '':
+            elements = self.driver.find_elements(By.XPATH, colorsRow+'/visual-container-modern')
 
-        orderList = order.split('\n')
-        print(orderList)
+        for elm in elements:
+            print(elm.text, "\n________")
 
+        for order, elm in enumerate(elements):
+            print(order, elm.text)
+            if elm.text == 'Overall \nCommunity\nStatus':
+                continue
+            colorElm = elm.find_element(By.XPATH, ".//transform/div/div[3]/div")
+            print(colorElm.text, end=" | ")
 
-        for colorS, x in zip(('red', 'orange', 'yellow', 'green'), [1, 2, 3, 4]):
-            colorElm = self.driver.find_element(By.XPATH, colorsXPATH.format(color=x))
-
-            # # while loop ensures that the page has properly loaded before getting data.
-            # while colorElm.text == '':
-            #     colorElm = self.driver.find_element(By.XPATH, colorsXPATH.format(color=x))
-            color = colorElm.value_of_css_property("background-color")
-            print(colorS, x, colorElm.text)
+            bgcolor = colorElm.value_of_css_property("background-color")
+            print(bgcolor, "\n______________")
             # Checking to see if that element color has been changed from its default white
             # if it has then that is the current community status
-            if color != WHITE:
-                return colorS
+            if bgcolor != WHITE:
+                return colorElm.text
+
 
 bot = Bot()
 bot.requestContent()
-bot.getCommunityStatus()
+print("community staus: ", bot.getCommunityStatus())

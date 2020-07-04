@@ -1,6 +1,7 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
+from time import sleep
 
 LINK = "https://www.kflaph.ca/en/healthy-living/status-of-cases-in-kfla.aspx"
 LINK2 = "https://app.powerbi.com/view?r=eyJrIjoiNTJjYWM2NjgtNTRhZi00NDcyLTkxYzEtZDlmZTZjMDRmN2QzIiwidCI6Ijk4M2JmOTVjLTAyNDYtNDg5My05MmI4LTgwMWJkNTEwYjRmYSJ9"
@@ -26,7 +27,7 @@ class Bot:
         op.add_argument("--headless")
         op.add_argument("--disable-gpu")
         self.driver = webdriver.Chrome(options=op)
-        self.driver.implicitly_wait(10)
+        self.driver.implicitly_wait(4)
 
     def refreshPage(self):
         self.driver.refresh()
@@ -43,10 +44,16 @@ class Bot:
 
         # Polls the site until I get the data needed
         while numCasesLine == '':
-            numCasesLine = self.driver.find_element(By.XPATH, casesXPATH.format(case=5)).text
+            try:
+                numCasesLine = self.driver.find_element(By.XPATH, casesXPATH.format(case=4)).text
+            except:
+                numCasesLine = self.driver.find_element(By.XPATH, casesXPATH.format(case=5)).text
 
         while numCasesResolvedLine == '':
-            numCasesResolvedLine = self.driver.find_element(By.XPATH, casesXPATH.format(case=2)).text
+            try:
+                numCasesResolvedLine = self.driver.find_element(By.XPATH, casesXPATH.format(case=3)).text
+            except:
+                numCasesResolvedLine = self.driver.find_element(By.XPATH, casesXPATH.format(case=2)).text
 
         numCases = int(numCasesLine.split("\n")[0])
         numCasesResolved = int(numCasesResolvedLine.split("\n")[0])
@@ -55,8 +62,12 @@ class Bot:
         return currActive
 
     def getCommunityStatus(self):
-        red = self.driver.find_element(By.XPATH,
-                                       colorsXPATH.format(color=2)).value_of_css_property("background-color")
+        red = self.driver.find_element(By.XPATH, colorsXPATH.format(color=2))
+
+        # while loop ensures that the page has properly loaded before getting data.
+        while red.text == '':
+            red = self.driver.find_element(By.XPATH, colorsXPATH.format(color=2))
+        red = red.value_of_css_property("background-color")
 
         # Checking to see if that element color has been changed from its default white
         # if it has then that is the current community status
@@ -74,3 +85,9 @@ class Bot:
                                          colorsXPATH.format(color=5)).value_of_css_property("background-color")
         if green != WHITE:
             return 'green'
+
+
+# bot = Bot()
+# bot.requestContent()
+# print(bot.getCommunityStatus())
+# print(bot.getCases())

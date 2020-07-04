@@ -2,41 +2,50 @@ from scraper import Bot
 
 bot = Bot()
 bot.requestContent()
-print("Community Status:|" + bot.getCommunityStatus() + '|')
-print("Active Cases:", bot.getCases())
-# from gpiozero import PWMLED
-# from time import sleep
-#
-# red = PWMLED(5)
-# green = PWMLED(6)
-# blue = PWMLED(13)
-#
-#
-# def displayColor(color='w'):
-#
-#     if color == 'w':
-#         red.on()
-#         green.on()
-#         blue.on()
-#     elif color == 'r':
-#         red.on()
-#         green.off()
-#         blue.off()
-#     elif color == 'o':
-#         green.value = 0.05
-#         red.value = 1.0
-#
-#         blue.off()
-#     elif color == 'y':
-#         green.value = 0.25
-#         red.value = 1.0
-#
-#         blue.off()
-#     elif color == 'g':
-#         red.off()
-#         green.on()
-#         blue.off()
-#
+communityStatus = bot.getCommunityStatus()
+activeCases = bot.getCases()
+print("Community Status:|" + communityStatus + '|')
+print("Active Cases:", activeCases)
+
+from gpiozero import PWMLED
+import time
+
+red = PWMLED(5)
+green = PWMLED(6)
+blue = PWMLED(13)
+
+
+def displayColor(color='White'):
+    if color == 'White':
+        red.on()
+        green.on()
+        blue.on()
+    elif color == 'Red':
+        red.on()
+        green.off()
+        blue.off()
+    elif color == 'Orange':
+        green.value = 0.05
+        red.value = 1.0
+
+        blue.off()
+    elif color == 'Yellow':
+        green.value = 0.25
+        red.value = 1.0
+
+        blue.off()
+    elif color == 'Green':
+        red.off()
+        green.on()
+        blue.off()
+    else:
+        print("\nERROR: THAT IS NOT A COLOR\n")
+
+
+while True:
+    displayColor(communityStatus)
+    print(time.time())
+
 # # Sub in 2 for Red, 3-Orange, 4-Yellow, and 5-Green
 # #while True:
 #     # Red

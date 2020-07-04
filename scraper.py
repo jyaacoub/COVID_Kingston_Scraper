@@ -6,7 +6,7 @@ from time import sleep
 LINK = "https://www.kflaph.ca/en/healthy-living/status-of-cases-in-kfla.aspx"
 LINK2 = "https://app.powerbi.com/view?r=eyJrIjoiNTJjYWM2NjgtNTRhZi00NDcyLTkxYzEtZDlmZTZjMDRmN2QzIiwidCI6Ijk4M2JmOTVjLTAyNDYtNDg5My05MmI4LTgwMWJkNTEwYjRmYSJ9"
 
-# Sub in 2 for the number of cases resolved or 5 for the number of cases total.
+
 casesRow = "/html/body/div[1]/ui-view/div/div[1]/div/div/div/div/exploration-container/" \
              "exploration-container-modern/div/div/exploration-host/div/div/exploration/div/explore-canvas-modern/" \
              "div/div[2]/div/div[2]/div[2]/visual-container-repeat/visual-container-group[8]/transform/div/div[2]"
@@ -17,10 +17,11 @@ colorsRow = "/html/body/div[1]/ui-view/div/div[1]/div/div/div/div/exploration-co
             "exploration-container-modern/div/div/exploration-host/div/div/exploration/div/explore-canvas-modern/" \
             "div/div[2]/div/div[2]/div[2]/visual-container-repeat/visual-container-group[3]/transform/div/div[2]"
 
-# Sub in 2 for Red, 3-Orange, 4-Yellow, and 5-Green
+
 colorsXPATH = colorsRow + "/visual-container-modern[{color}]/transform/div/div[3]/div"
 
 WHITE = 'rgba(255, 255, 255, 1)'    # The background color for white
+
 
 class Bot:
     def __init__(self):
@@ -40,7 +41,9 @@ class Bot:
         self.driver.get(link)
 
     def getCases(self):
+        print('\t', end='')
         # Getting the order of the elements:
+        # I do this because the order of the elements change everyday, and so this makes it more dynamic
         elements = self.driver.find_elements(By.XPATH, casesRow + '/visual-container-modern')
         while elements[0].text == '':
             elements = self.driver.find_elements(By.XPATH, casesRow + '/visual-container-modern')
@@ -64,15 +67,17 @@ class Bot:
             else:
                 numCasesTot = int(elmText.split("\n")[0])
 
-        print("numCasesResolved: ", numCasesResolved)
-        print("numDeaths: ", numDeaths)
-        print("numCasesTot:", numCasesTot)
+        print("\tnumCasesResolved: ", numCasesResolved)
+        print("\tnumDeaths: ", numDeaths)
+        print("\tnumCasesTot:", numCasesTot)
 
         currActive = numCasesTot - numDeaths - numCasesResolved
         return currActive
 
     def getCommunityStatus(self):
+        print('\t', end='')
         # Getting the order of the elements:
+        # I do this because the order of the elements is different everyday and so this makes it more dynamic
         elements = self.driver.find_elements(By.XPATH, colorsRow + '/visual-container-modern')
         while elements[0].text == '':
             elements = self.driver.find_elements(By.XPATH, colorsRow + '/visual-container-modern')
@@ -90,9 +95,3 @@ class Bot:
             # if it has then that is the current community status
             if bgColor != WHITE:
                 return colorElm.text.strip()
-
-
-# bot = Bot()
-# bot.requestContent()
-# print("Community Status:|" + bot.getCommunityStatus() + '|')
-# print("Active Cases:", bot.getCases())

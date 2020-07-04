@@ -41,10 +41,15 @@ def displayColor(color='White'):
     else:
         print("\nERROR: THAT IS NOT A COLOR\n")
 
+hourlyCheck = False
 
 while True:
     displayColor(communityStatus)
-    print(time.localtime(time.time()).tm_hour)
+
+    currTime = time.localtime(time.time())
+    if currTime.tm_hour % 2 or (currTime.tm_hour == 14 and currTime.tm_min == 50):
+        hourlyCheck = True
+
     time.sleep(1)
 
 # # Sub in 2 for Red, 3-Orange, 4-Yellow, and 5-Green

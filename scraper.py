@@ -1,7 +1,9 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
-from time import sleep
+from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
+import time
 
 LINK = "https://www.kflaph.ca/en/healthy-living/status-of-cases-in-kfla.aspx"
 LINK2 = "https://app.powerbi.com/view?r=eyJrIjoiNTJjYWM2NjgtNTRhZi00NDcyLTkxYzEtZDlmZTZjMDRmN2QzIiwidCI6Ijk4M2JmOTVjLTAyNDYtNDg5My05MmI4LTgwMWJkNTEwYjRmYSJ9"
@@ -28,10 +30,11 @@ class Bot:
         op = Options()
         op.add_argument("--headless")
         op.add_argument("--disable-gpu")
+        op.add_argument("--incognito")
         self.driver = webdriver.Chrome(options=op)
         self.driver.implicitly_wait(4)
 
-    def refreshPage(self):
+    def refresh(self):
         self.driver.refresh()
 
     def quit(self):
@@ -79,8 +82,8 @@ class Bot:
         # Getting the order of the elements:
         # I do this because the order of the elements is different everyday and so this makes it more dynamic
         elements = self.driver.find_elements(By.XPATH, colorsRow + '/visual-container-modern')
-        while elements[0].text == '':
-            elements = self.driver.find_elements(By.XPATH, colorsRow + '/visual-container-modern')
+        while not elements[0].is_displayed():
+            print(elements[0].is_displayed())
             print(">", end="")
         print("Got Community Status Row!")
 
@@ -95,3 +98,13 @@ class Bot:
             # if it has then that is the current community status
             if bgColor != WHITE:
                 return colorElm.text.strip()
+
+
+# bot = Bot()
+# bot.requestContent()
+# communityStatus = bot.getCommunityStatus()
+# activeCases = bot.getCases()
+# print("Community Status:|" + communityStatus + '|')
+# print("Active Cases:", activeCases)
+# time.sleep(5)
+# bot.quit()

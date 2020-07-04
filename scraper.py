@@ -68,26 +68,38 @@ class Bot:
         while red.text == '':
             red = self.driver.find_element(By.XPATH, colorsXPATH.format(color=2))
         red = red.value_of_css_property("background-color")
-
         # Checking to see if that element color has been changed from its default white
         # if it has then that is the current community status
         if red != WHITE:
             return "red"
-        orange = self.driver.find_element(By.XPATH,
-                                          colorsXPATH.format(color=3)).value_of_css_property("background-color")
+
+        orange = self.driver.find_element(By.XPATH, colorsXPATH.format(color=2))
+
+        # while loop ensures that the page has properly loaded before getting data.
+        while orange.text == '':
+            orange = self.driver.find_element(By.XPATH, colorsXPATH.format(color=2))
+        orange = orange.value_of_css_property("background-color")
         if orange != WHITE:
             return "orange"
-        yellow = self.driver.find_element(By.XPATH,
-                                          colorsXPATH.format(color=4)).value_of_css_property("background-color")
+
+        yellow = self.driver.find_element(By.XPATH, colorsXPATH.format(color=2))
+
+        # while loop ensures that the page has properly loaded before getting data.
+        while yellow.text == '':
+            yellow = self.driver.find_element(By.XPATH, colorsXPATH.format(color=2))
+        yellow = yellow.value_of_css_property("background-color")
+
         if yellow != WHITE:
             return "yellow"
-        green = self.driver.find_element(By.XPATH,
-                                         colorsXPATH.format(color=5)).value_of_css_property("background-color")
+
+        green = self.driver.find_element(By.XPATH, colorsXPATH.format(color=2))
+
+        # while loop ensures that the page has properly loaded before getting data.
+        while green.text == '':
+            green = self.driver.find_element(By.XPATH, colorsXPATH.format(color=2))
+        green = green.value_of_css_property("background-color")
         if green != WHITE:
             return 'green'
 
 
-# bot = Bot()
-# bot.requestContent()
-# print(bot.getCommunityStatus())
-# print(bot.getCases())
+# git p

@@ -56,13 +56,11 @@ def main():
         # Checks the cases every hour
         if currTime.tm_hour != prevCheckTime.tm_hour or (currTime.tm_hour == 14 and currTime.tm_min == 50):
             displayColor('White')
+
             communityStatus, activeCases = getData()
             prevCheckTime = currTime
 
         time.sleep(1)
-
-
-# main()
 
 # code modified, tweaked and tailored from code by bertwert
 # on RPi forum thread topic 91796
@@ -104,29 +102,29 @@ num = {' ': (1,1,1,1,1,1,1,1),
        '9': (0,0,0,0,1,0,0,1)}
 
 
-# try:
-#     while True:
-#         n = time.ctime()[11:13]+time.ctime()[14:16]
-#         s = str(n).rjust(4)
-#         for digit in range(4):
-#             for loop in range(0,7):
-#                 GPIO.output(segments[loop], num[s[digit]][loop])
-#                 if (int(time.ctime()[18:19])%2 == 0) and (digit == 1):
-#                     GPIO.output(25, 1)
-#                 else:
-#                     GPIO.output(25, 0)
-#             GPIO.output(digits[digit], 0)
-#             time.sleep(0.001)
-#             GPIO.output(digits[digit], 1)
-# finally:
-#     GPIO.cleanup()
-
 try:
     while True:
-        for numS, numP in num.items():
-            print(numS, numP)
-            for pinLvl, seg in zip(numP, segments):
-                GPIO.output(seg, pinLvl)
-            time.sleep(1)
+        n = time.ctime()[11:13]+time.ctime()[14:16]
+        s = str(n).rjust(4)
+        for digit in range(4):
+            for loop in range(0,7):
+                GPIO.output(segments[loop], num[s[digit]][loop])
+                if (int(time.ctime()[18:19])%2 == 0) and (digit == 1):
+                    GPIO.output(25, 1)
+                else:
+                    GPIO.output(25, 0)
+            GPIO.output(digits[digit], 0)
+            time.sleep(0.001)
+            GPIO.output(digits[digit], 1)
 finally:
     GPIO.cleanup()
+
+# try:
+#     while True:
+#         for numS, numP in num.items():
+#             print(numS, numP)
+#             for pinLvl, seg in zip(numP, segments):
+#                 GPIO.output(seg, pinLvl)
+#             time.sleep(1)
+# finally:
+#     GPIO.cleanup()

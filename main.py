@@ -1,18 +1,21 @@
 from scraper import Bot
-
-bot = Bot()
-bot.requestContent()
-communityStatus = bot.getCommunityStatus()
-activeCases = bot.getCases()
-print("Community Status:|" + communityStatus + '|')
-print("Active Cases:", activeCases)
-
 from gpiozero import PWMLED
 import time
 
 red = PWMLED(5)
 green = PWMLED(6)
 blue = PWMLED(13)
+
+
+def getData():
+    bot = Bot()
+    bot.requestContent()
+    communityStatus = bot.getCommunityStatus()
+    activeCases = bot.getCases()
+    print("Community Status:|" + communityStatus + '|')
+    print("Active Cases:", activeCases)
+    bot.quit()
+    return communityStatus, activeCases
 
 
 def displayColor(color='White'):
@@ -41,35 +44,26 @@ def displayColor(color='White'):
     else:
         print("\nERROR: THAT IS NOT A COLOR\n")
 
-hourlyCheck = False
 
-while True:
-    displayColor(communityStatus)
+def main():
+    communityStatus, activeCases = getData()
+    prevCheckTime = time.localtime(time.time())
 
-    currTime = time.localtime(time.time())
-    if currTime.tm_hour % 2 or (currTime.tm_hour == 14 and currTime.tm_min == 50):
-        hourlyCheck = True
+    while True:
+        displayColor(communityStatus)
+        currTime = time.localtime(time.time())
 
-    time.sleep(1)
+        # Checks the cases every hour
+        if currTime.tm_hour != prevCheckTime.tm_hour or (currTime.tm_hour == 14 and currTime.tm_min == 50):
+            displayColor('White')
+            communityStatus, activeCases = getData()
+            prevCheckTime = currTime
 
-# # Sub in 2 for Red, 3-Orange, 4-Yellow, and 5-Green
-# #while True:
-#     # Red
-#    # displayColor('r')
-#    # sleep(1)
-#
-#     # Orange
-#    # displayColor('o')
-#    # sleep(1)
-#
-#     # Yellow
-#    # displayColor('y')
-#    # sleep(1)
-#
-#     # Green
-#    # displayColor('g')
-#    # sleep(1)
-#
+        time.sleep(1)
+
+
+main()
+
 # # code modified, tweaked and tailored from code by bertwert
 # # on RPi forum thread topic 91796
 # import RPi.GPIO as GPIO

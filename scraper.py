@@ -73,30 +73,30 @@ class Bot:
         if red != WHITE:
             return "red"
 
-        orange = self.driver.find_element(By.XPATH, colorsXPATH.format(color=2))
+        orange = self.driver.find_element(By.XPATH, colorsXPATH.format(color=3))
 
         # while loop ensures that the page has properly loaded before getting data.
         while orange.text == '':
-            orange = self.driver.find_element(By.XPATH, colorsXPATH.format(color=2))
+            orange = self.driver.find_element(By.XPATH, colorsXPATH.format(color=3))
         orange = orange.value_of_css_property("background-color")
         if orange != WHITE:
             return "orange"
 
-        yellow = self.driver.find_element(By.XPATH, colorsXPATH.format(color=2))
+        yellow = self.driver.find_element(By.XPATH, colorsXPATH.format(color=4))
 
         # while loop ensures that the page has properly loaded before getting data.
         while yellow.text == '':
-            yellow = self.driver.find_element(By.XPATH, colorsXPATH.format(color=2))
+            yellow = self.driver.find_element(By.XPATH, colorsXPATH.format(color=4))
         yellow = yellow.value_of_css_property("background-color")
 
         if yellow != WHITE:
             return "yellow"
 
-        green = self.driver.find_element(By.XPATH, colorsXPATH.format(color=2))
+        green = self.driver.find_element(By.XPATH, colorsXPATH.format(color=5))
 
         # while loop ensures that the page has properly loaded before getting data.
         while green.text == '':
-            green = self.driver.find_element(By.XPATH, colorsXPATH.format(color=2))
+            green = self.driver.find_element(By.XPATH, colorsXPATH.format(color=5))
         green = green.value_of_css_property("background-color")
         if green != WHITE:
             return 'green'

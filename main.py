@@ -132,7 +132,7 @@ def main():
 
     while True:
         currTime = time.localtime(time.time())
-        #print(currTime.tm_hour, currTime.tm_min)
+
         # Turns off during the night:
         if currTime.tm_hour > 6 and currTime.tm_hour < 22:
             displayColor(communityStatus)
@@ -142,8 +142,6 @@ def main():
 
         # Checks the cases every hour
         if currTime.tm_hour != prevCheckTime.tm_hour or (currTime.tm_hour == 14 and currTime.tm_min == 50):
-            displayColor('White')
-
             communityStatus, activeCases = getData()
             prevCheckTime = currTime
 

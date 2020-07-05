@@ -1,6 +1,8 @@
 import RPi.GPIO as GPIO
 from scraper import Bot
 from gpiozero import PWMLED
+from multiprocessing import Process
+import os
 import time
 GPIO.setmode(GPIO.BCM)
 
@@ -53,7 +55,7 @@ def getData():
     return communityStatus, activeCases
 
 
-def displayColor(color='White'):
+def displayColor(color='White', brightness=0.8):
     if color == 'White':
         red.on()
         green.on()
@@ -79,11 +81,15 @@ def displayColor(color='White'):
 
     elif color == 'None':
         red.off()
-        green.value = 0.2
+        green.off()
         blue.off()
 
     else:
         print("\nERROR: THAT IS NOT A COLOR\n")
+
+    red.value *= brightness
+    green.value *= brightness
+    blue.value *= brightness
 
 
 def displayDigit(digit):
@@ -110,42 +116,67 @@ def displayNum(number):
 
 def debugDisplay():
     while True:
-        for s in segments:
+        for segment in segments:
             x = 0
-            for d in digits:
+            for digit in digits:
                 print("GPIOPins:")
-                print("\tDigit:", d, "(number", str(x) + ")")
-                print("\tSegment:", s)
+                print("\tDigit:", digit, "(number", str(x) + ")")
+                print("\tSegment:", segment)
 
-                GPIO.output(d, 1)
-                GPIO.output(s, 0)
+                GPIO.output(digit, 1)
+                GPIO.output(segment, 0)
 
                 time.sleep(1)
-                GPIO.output(d, 0)
-                GPIO.output(s, 1)
+                GPIO.output(digit, 0)
+                GPIO.output(segment, 1)
                 x += 1
 
 
 def main():
     communityStatus, activeCases = getData()
-    prevCheckTime = time.localtime(time.time())
+    currTime = time.localtime(time.time())
+    prevCheckTime = currTime
+    prevActiveCases = activeCases
+
+    # Starts a subprocess to render the number on the 7-segment display
+    renderNumber = Process(target=displayNum, args=(str(activeCases),))
+    displayColor(color=communityStatus)
 
     while True:
-        currTime = time.localtime(time.time())
-
         # Turns off during the night:
-        if currTime.tm_hour > 10 or currTime.tm_hour < 6:
-            displayColor(communityStatus)
-            displayNum(str(activeCases))
+        if currTime.tm_hour > 22 or currTime.tm_hour < 6:
+            displayColor(color='None')
+            if renderNumber.is_alive():
+                renderNumber.terminate()
+
         else:
-            displayColor('None')
+            currTime = time.localtime(time.time())
 
-        # Checks the cases every hour
-        if currTime.tm_hour != prevCheckTime.tm_hour or (currTime.tm_hour == 14 and currTime.tm_min == 50):
-            displayColor('White')
+            # Checks the cases every 15 min
+            if (currTime.tm_hour != prevCheckTime.tm_hour and
+                    currTime.tm_min != prevCheckTime.tm_min and
+                    currTime.tm_min % 15 == 0):
 
-            communityStatus, activeCases = getData()
-            prevCheckTime = currTime
+                communityStatus, activeCases = getData()
+                prevCheckTime = currTime
+
+                # Only terminates if the new number is different
+                if prevActiveCases != activeCases:
+                    prevActiveCases = activeCases
+
+                    # Terminates old process and starts a new one with the updated number:
+                    renderNumber.terminate()
+                    renderNumber = Process(target=displayNum, args=(str(activeCases),))
+
+                    # Flashes the color to show that the number has been updated
+                    for x in range(4):
+                        displayColor(color='White', brightness=1.0)
+                        time.sleep(.5)
+                        displayColor(color='None')
+                        time.sleep(0.5)
+
+                # Updates the color:
+                displayColor(color=communityStatus)
 
 
 main()

@@ -127,7 +127,7 @@ def main():
 
     while True:
         displayColor(communityStatus)
-        displayNum(activeCases)
+        displayNum(str(activeCases))
         currTime = time.localtime(time.time())
 
         # Checks the cases every hour
@@ -136,3 +136,6 @@ def main():
 
             communityStatus, activeCases = getData()
             prevCheckTime = currTime
+
+
+main()

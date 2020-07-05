@@ -145,9 +145,10 @@ def displayNum(number):
 
 def debugDisplay():
     while True:
-        x = 0
-        for d in digits:
-            for s in segments:
+
+        for s in segments:
+            x = 0
+            for d in digits:
                 print("GPIOPins:")
                 print("\tDigit:", d, "(number", str(x) + ")")
                 print("\tSegment:", s)
@@ -158,7 +159,7 @@ def debugDisplay():
                 time.sleep(.1)
                 GPIO.output(d, 0)
                 GPIO.output(s, 1)
-            x += 1
+                x += 1
 
 debugDisplay()
 

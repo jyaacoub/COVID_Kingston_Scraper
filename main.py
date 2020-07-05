@@ -1,6 +1,7 @@
 import RPi.GPIO as GPIO
 from scraper import Bot
 from gpiozero import PWMLED
+import multiprocessing
 from multiprocessing import Process
 import os
 import time
@@ -104,17 +105,22 @@ def displayDigit(digit):
 def displayNum(number):
     numDigits = len(number)
     dif = 4-numDigits
-    for i, digit in enumerate(number):
-        # Turning on the right digits:
-        GPIO.output(digits[i+dif], 1)
-        # Displaying the digit:
-        displayDigit(digit)
+    # This function should only be run as a subprocess
+    while True:
+        for i, digit in enumerate(number):
+            # Turning on the right digits:
+            try:
+                GPIO.output(digits[i+dif], 1)
+                # Displaying the digit:
+                displayDigit(digit)
+            except:
+                print("error when turning on digit")
 
-        time.sleep(0.001)
-        GPIO.output(digits[i+dif], 0)
+            time.sleep(0.001)
+            GPIO.output(digits[i+dif], 0)
 
 
-def debugDisplay():
+def debugDisplay(speed=1):
     while True:
         for segment in segments:
             x = 0
@@ -126,7 +132,7 @@ def debugDisplay():
                 GPIO.output(digit, 1)
                 GPIO.output(segment, 0)
 
-                time.sleep(1)
+                time.sleep(speed)
                 GPIO.output(digit, 0)
                 GPIO.output(segment, 1)
                 x += 1
@@ -140,6 +146,7 @@ def main():
 
     # Starts a subprocess to render the number on the 7-segment display
     renderNumber = Process(target=displayNum, args=(str(activeCases),))
+    renderNumber.start()
     displayColor(color=communityStatus)
 
     while True:
@@ -167,16 +174,23 @@ def main():
                     # Terminates old process and starts a new one with the updated number:
                     renderNumber.terminate()
                     renderNumber = Process(target=displayNum, args=(str(activeCases),))
+                    renderNumber.start()
 
                     # Flashes the color to show that the number has been updated
                     for x in range(4):
                         displayColor(color='White', brightness=1.0)
-                        time.sleep(.5)
+                        time.sleep(0.5)
                         displayColor(color='None')
                         time.sleep(0.5)
 
                 # Updates the color:
                 displayColor(color=communityStatus)
 
+try:
+    main()
 
-main()
+finally:
+    # Termination sequence:
+    GPIO.cleanup()
+    for process in multiprocessing.active_children():
+        process.terminate()

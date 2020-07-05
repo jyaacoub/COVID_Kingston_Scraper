@@ -145,9 +145,9 @@ def displayNum(number):
 
 def debugDisplay():
     while True:
-        x = 0
 
         for s in segments:
+            x = 0
             for d in digits:
                 print("GPIOPins:")
                 print("\tDigit:", d, "(number", str(x) + ")")

@@ -155,7 +155,7 @@ def debugDisplay():
                 GPIO.output(d, 1)
                 GPIO.output(s, 0)
 
-                time.sleep(4)
+                time.sleep(.5)
                 GPIO.output(d, 0)
                 GPIO.output(s, 1)
             x += 1

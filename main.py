@@ -132,16 +132,14 @@ def displayDigit(digit):
 def displayNum(number):
     numDigits = len(number)
     dif = 4-numDigits
-    while True:
-        for i, digit in enumerate(number):
-            # Turning on the right digits:
-            GPIO.output(digits[i+dif], 0)
-            # Displaying the digit:
-            displayDigit(digit)
+    for i, digit in enumerate(number):
+        # Turning on the right digits:
+        GPIO.output(digits[i+dif], 1)
+        # Displaying the digit:
+        displayDigit(digit)
 
-            time.sleep(1)
-            GPIO.output(digits[i+dif], 1)
-
+        time.sleep(0.001)
+        GPIO.output(digits[i+dif], 0)
 
 def debugDisplay():
     while True:
@@ -162,9 +160,6 @@ def debugDisplay():
                 x += 1
 
 # debugDisplay()
-for d in [str(x) for x in range(0, 9)]:
-    displayDigit(d)
-    time.sleep(1)
 
 # try:
 #     while True:

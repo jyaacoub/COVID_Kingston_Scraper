@@ -48,7 +48,7 @@ class Bot:
         # Getting the order of the elements:
         # I do this because the order of the elements change everyday, and so this makes it more dynamic
         elements = self.driver.find_elements(By.XPATH, casesRow + '/visual-container-modern')
-        while elements[0].text == '':
+        while len(elements) == 0 or len(elements[0].text) == 0:
             elements = self.driver.find_elements(By.XPATH, casesRow + '/visual-container-modern')
             print("<", end="")
         print("Got Total Case Numbers Row!")
@@ -82,8 +82,8 @@ class Bot:
         # Getting the order of the elements:
         # I do this because the order of the elements is different everyday and so this makes it more dynamic
         elements = self.driver.find_elements(By.XPATH, colorsRow + '/visual-container-modern')
-        while not elements[0].is_displayed():
-            print(elements[0].is_displayed())
+        while len(elements) == 0 or len(elements[0].text) == 0:
+            elements = self.driver.find_elements(By.XPATH, colorsRow + '/visual-container-modern')
             print(">", end="")
         print("Got Community Status Row!")
 

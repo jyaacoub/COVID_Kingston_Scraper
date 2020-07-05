@@ -70,7 +70,7 @@ def displayColor(color='White', brightness=0.8):
 
         blue.off()
     elif color == 'Yellow':
-        green.value = 0.25
+        green.value = 0.26
         red.value = 1.0
 
         blue.off()

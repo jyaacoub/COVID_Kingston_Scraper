@@ -5,7 +5,7 @@ import time
 def displayNum(num):
     while True:
         print("I am displaying the number", num, "My id is:", os.getpid(), __name__)
-        time.sleep(5)
+        time.sleep(10)
         pass
 
 if __name__ == '__main__':

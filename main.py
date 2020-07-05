@@ -68,7 +68,7 @@ def displayColor(color='White'):
 
         blue.off()
     elif color == 'Yellow':
-        green.value = 0.25
+        green.value = 0.26
         red.value = 1.0
 
         blue.off()
@@ -79,7 +79,7 @@ def displayColor(color='White'):
 
     elif color == 'None':
         red.off()
-        green.value = 0.2
+        green.value = 0.001
         blue.off()
 
     else:
@@ -132,9 +132,9 @@ def main():
 
     while True:
         currTime = time.localtime(time.time())
-
+        #print(currTime.tm_hour, currTime.tm_min)
         # Turns off during the night:
-        if currTime.tm_hour > 10 or currTime.tm_hour < 6:
+        if currTime.tm_hour > 6 and currTime.tm_hour < 22:
             displayColor(communityStatus)
             displayNum(str(activeCases))
         else:

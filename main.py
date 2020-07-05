@@ -134,12 +134,12 @@ def displayNum(number):
     while True:
         for i, digit in enumerate(number):
             # Turning on the right digits:
-            GPIO.output(digits[digit+dif], 0)
+            GPIO.output(digits[i+dif], 0)
             # Displaying the digit:
             displayDigit(digit)
 
             time.sleep(1)
-            GPIO.output(digits[digit+dif], 1)
+            GPIO.output(digits[i+dif], 1)
 
 displayNum("123")
 

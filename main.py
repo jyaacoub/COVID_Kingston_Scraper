@@ -161,7 +161,10 @@ def debugDisplay():
                 GPIO.output(s, 1)
                 x += 1
 
-debugDisplay()
+# debugDisplay()
+for d in [str(x) for x in range(0, 9)]:
+    displayDigit(d)
+    time.sleep(1)
 
 # try:
 #     while True:

@@ -79,7 +79,7 @@ def displayColor(color='White'):
 
     elif color == 'None':
         red.off()
-        green.value = 0.001
+        green.off()
         blue.off()
 
     else:

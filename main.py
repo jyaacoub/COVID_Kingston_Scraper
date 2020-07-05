@@ -85,7 +85,16 @@ digits = (22, 27, 17, 24)
 
 for d in digits:
     GPIO.setup(d, GPIO.OUT)
+    GPIO.output(d, 0)
+
+x = 0
+for d in digits:
+    print("pin:", d, "num:", x)
     GPIO.output(d, 1)
+    x += 1
+    time.sleep(4)
+    GPIO.output(d, 0)
+
 
 # Taking a segment pin to ground (0) activates that segment
 digitSeg = {' ': (1,1,1,1,1,1,1,1),
@@ -141,7 +150,6 @@ def displayNum(number):
             time.sleep(1)
             GPIO.output(digits[i+dif], 1)
 
-displayNum("123")
 
 
 # try:

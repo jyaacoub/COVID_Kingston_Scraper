@@ -150,7 +150,7 @@ def debugDisplay():
             for s in segments:
                 print("GPIOPins:")
                 print("\tDigit:", d, "(number", str(x) + ")")
-                print("\tSegment:", d)
+                print("\tSegment:", s)
 
                 GPIO.output(d, 1)
                 GPIO.output(s, 0)

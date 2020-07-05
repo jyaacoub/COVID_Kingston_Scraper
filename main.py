@@ -76,6 +76,12 @@ def displayColor(color='White'):
         red.off()
         green.on()
         blue.off()
+
+    elif color == 'None':
+        red.off()
+        green.value = 0.2
+        blue.off()
+
     else:
         print("\nERROR: THAT IS NOT A COLOR\n")
 
@@ -104,7 +110,6 @@ def displayNum(number):
 
 def debugDisplay():
     while True:
-
         for s in segments:
             x = 0
             for d in digits:
@@ -126,9 +131,14 @@ def main():
     prevCheckTime = time.localtime(time.time())
 
     while True:
-        displayColor(communityStatus)
-        displayNum(str(activeCases))
         currTime = time.localtime(time.time())
+
+        # Turns off during the night:
+        if currTime.tm_hour > 10 or currTime.tm_hour < 6:
+            displayColor(communityStatus)
+            displayNum(str(activeCases))
+        else:
+            displayColor('None')
 
         # Checks the cases every hour
         if currTime.tm_hour != prevCheckTime.tm_hour or (currTime.tm_hour == 14 and currTime.tm_min == 50):

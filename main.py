@@ -77,7 +77,7 @@ segments = (11, 4, 23, 8, 7, 10, 18, 25)
 
 for s in segments:
     GPIO.setup(s, GPIO.OUT)
-    GPIO.output(s, 0)
+    GPIO.output(s, 1)
 
 # GPIO ports for the digit 0-3 pins
 digits = (22, 27, 17, 24)
@@ -85,14 +85,6 @@ digits = (22, 27, 17, 24)
 
 for d in digits:
     GPIO.setup(d, GPIO.OUT)
-    GPIO.output(d, 0)
-
-x = 0
-for d in digits:
-    print("pin:", d, "num:", x)
-    GPIO.output(d, 1)
-    x += 1
-    time.sleep(4)
     GPIO.output(d, 0)
 
 
@@ -151,6 +143,24 @@ def displayNum(number):
             GPIO.output(digits[i+dif], 1)
 
 
+def debugDisplay():
+    while True:
+        x = 0
+        for d in digits:
+            for s in segments:
+                print("GPIOPins:")
+                print("\tDigit:", d, "(number", str(x) + ")")
+                print("\tSegment:", d)
+
+                GPIO.output(d, 1)
+                GPIO.output(s, 0)
+
+                time.sleep(4)
+                GPIO.output(d, 0)
+                GPIO.output(s, 1)
+            x += 1
+
+debugDisplay()
 
 # try:
 #     while True:

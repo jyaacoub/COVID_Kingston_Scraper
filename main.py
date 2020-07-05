@@ -75,49 +75,74 @@ GPIO.setmode(GPIO.BCM)
 segments = (11, 4, 23, 8, 7, 10, 18, 25)
 # 7seg_segment_pins (11,7,4,2,1,10,5,3) +  220R
 
-for segment in segments:
-    GPIO.setup(segment, GPIO.OUT)
-    GPIO.output(segment, 0)
+for s in segments:
+    GPIO.setup(s, GPIO.OUT)
+    GPIO.output(s, 0)
 
 # GPIO ports for the digit 0-3 pins
 digits = (22, 27, 17, 24)
 # 7seg_digit_pins (12,9,8,6) digits 0-3 respectively
 
-for digit in digits:
-    GPIO.setup(digit, GPIO.OUT)
-    GPIO.output(digit, 1)
+for d in digits:
+    GPIO.setup(d, GPIO.OUT)
+    GPIO.output(d, 1)
 
 # Taking a segment pin to ground (0) activates that segment
-num = {' ': (1,1,1,1,1,1,1,1),
-       '.': (1,1,1,1,1,1,1,0),
-       '0': (0,0,0,0,0,0,1,1),
-       '1': (1,0,0,1,1,1,1,1),
-       '2': (0,0,1,0,0,1,0,1),
-       '3': (0,0,0,0,1,1,0,1),
-       '4': (1,0,0,1,1,0,0,1),
-       '5': (0,1,0,0,1,0,0,1),
-       '6': (0,1,0,0,0,0,0,1),
-       '7': (0,0,0,1,1,1,1,1),
-       '8': (0,0,0,0,0,0,0,1),
-       '9': (0,0,0,0,1,0,0,1)}
+digitSeg = {' ': (1,1,1,1,1,1,1,1),
+           '.': (1,1,1,1,1,1,1,0),
+           '0': (0,0,0,0,0,0,1,1),
+           '1': (1,0,0,1,1,1,1,1),
+           '2': (0,0,1,0,0,1,0,1),
+           '3': (0,0,0,0,1,1,0,1),
+           '4': (1,0,0,1,1,0,0,1),
+           '5': (0,1,0,0,1,0,0,1),
+           '6': (0,1,0,0,0,0,0,1),
+           '7': (0,0,0,1,1,1,1,1),
+           '8': (0,0,0,0,0,0,0,1),
+           '9': (0,0,0,0,1,0,0,1)}
 
 
-try:
+# try:
+#     while True:
+#         n = time.ctime()[11:13]+time.ctime()[14:16]
+#         s = str(n).rjust(4)
+#         for digit in range(4):
+#             for loop in range(0,7):
+#                 GPIO.output(segments[loop], num[s[digit]][loop])
+#                 if (int(time.ctime()[18:19])%2 == 0) and (digit == 1):
+#                     GPIO.output(25, 1)
+#                 else:
+#                     GPIO.output(25, 0)
+#             GPIO.output(digits[digit], 0)
+#             time.sleep(1)
+#             GPIO.output(digits[digit], 1)
+# finally:
+#     GPIO.cleanup()
+
+def displayDigit(digit):
+    numP = digitSeg[digit]
+    for pinLvl, seg in zip(numP, segments):
+        GPIO.output(seg, pinLvl)
+
+
+# Displays up to a 3-digit number
+# Bringing these low will turn on the digits 0-3 (from left to right):
+# [22] [27] [17] [24]
+def displayNum(number):
+    numDigits = len(number)
+    dif = 4-numDigits
     while True:
-        n = time.ctime()[11:13]+time.ctime()[14:16]
-        s = str(n).rjust(4)
-        for digit in range(4):
-            for loop in range(0,7):
-                GPIO.output(segments[loop], num[s[digit]][loop])
-                if (int(time.ctime()[18:19])%2 == 0) and (digit == 1):
-                    GPIO.output(25, 1)
-                else:
-                    GPIO.output(25, 0)
-            GPIO.output(digits[digit], 0)
+        for i, digit in enumerate(number):
+            # Turning on the right digits:
+            GPIO.output(digits[digit+dif], 0)
+            # Displaying the digit:
+            displayDigit(digit)
+
             time.sleep(1)
-            GPIO.output(digits[digit], 1)
-finally:
-    GPIO.cleanup()
+            GPIO.output(digits[digit+dif], 1)
+
+displayNum("123")
+
 
 # try:
 #     while True:

@@ -53,9 +53,9 @@ class Bot:
             print("<", end="")
         print("Got Total Case Numbers Row!")
 
-        numCasesResolved = ''
-        numDeaths = ''
-        numCasesTot = ''
+        numCasesResolved = 0
+        numDeaths = 0
+        numCasesTot = 0
 
         for order, elm in enumerate(elements):
             elmText = elm.text

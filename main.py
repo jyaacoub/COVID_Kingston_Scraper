@@ -172,7 +172,8 @@ def main():
                 prevCheckTime = currTime
 
                 # Only terminates if the new number is different
-                if prevActiveCases != activeCases:
+                if (prevActiveCases != activeCases or
+                     not renderNumber.is_active()):
                     prevActiveCases = activeCases
 
                     # Terminates old process and starts a new one with the updated number:

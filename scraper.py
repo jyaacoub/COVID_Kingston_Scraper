@@ -53,7 +53,6 @@ class Bot:
             print("<", end="")
         print("Got Total Case Numbers Row!")
 
-        numDeaths = ''
         numCasesResolved = 0
         numDeaths = 0
         numCasesTot = 0

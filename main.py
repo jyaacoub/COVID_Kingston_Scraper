@@ -139,8 +139,9 @@ def debugDisplay(speed=1):
 
 
 def main():
+    print("\n", time.strftime("%d %b %H:%M:%S", time.localtime()))
     communityStatus, activeCases = getData()
-    currTime = time.localtime(time.time())
+    currTime = time.localtime()
     prevCheckTime = currTime
     prevActiveCases = activeCases
 
@@ -150,20 +151,23 @@ def main():
     displayColor(color=communityStatus)
 
     while True:
+        currTime = time.localtime()
+
         # Turns off during the night:
         if currTime.tm_hour > 22 or currTime.tm_hour < 6:
             displayColor(color='None')
             if renderNumber.is_alive():
+                print("Terminating")
                 renderNumber.terminate()
+                renderNumber.join()
+                print("Alive status:", renderNumber.is_alive())
 
         else:
-            currTime = time.localtime(time.time())
-
             # Checks the cases every 15 min
-            if (currTime.tm_hour != prevCheckTime.tm_hour and
-                    currTime.tm_min != prevCheckTime.tm_min and
+            if (currTime.tm_min != prevCheckTime.tm_min and
                     currTime.tm_min % 15 == 0):
 
+                print("\n", time.strftime("%d %b %H:%M:%S", time.localtime()))
                 communityStatus, activeCases = getData()
                 prevCheckTime = currTime
 
@@ -173,6 +177,8 @@ def main():
 
                     # Terminates old process and starts a new one with the updated number:
                     renderNumber.terminate()
+                    renderNumber.join()
+
                     renderNumber = Process(target=displayNum, args=(str(activeCases),))
                     renderNumber.start()
 
@@ -194,3 +200,4 @@ finally:
     GPIO.cleanup()
     for process in multiprocessing.active_children():
         process.terminate()
+        process.join()

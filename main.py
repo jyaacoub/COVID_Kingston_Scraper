@@ -173,7 +173,7 @@ def main():
 
                 # Only terminates if the new number is different
                 if (prevActiveCases != activeCases or
-                     not renderNumber.is_active()):
+                     not renderNumber.is_alive()):
                     prevActiveCases = activeCases
 
                     # Terminates old process and starts a new one with the updated number:

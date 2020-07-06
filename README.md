@@ -19,13 +19,13 @@ The data I scraped from the site would be used to display the currently active c
 
 * The next issue I ran in to was a mix of both coding and hardware issues. The 7-segment display did not come with a module attached, so with help from this blog post I found (https://raspi.tv/2015/how-to-drive-a-7-segment-display-directly-on-raspberry-pi-in-python) I manually wired up some resistors and ensured that all 12 of the wires were plugged into the right GPIO pins. I even drew up a diagram to help me keep track of all the wires and which pins they were connected to.
 
-
+![Wiring Diagram](https://github.com/jyaacoub/COVID_Kingston_Scraper/blob/master/resources/Wiring%20diagram.jpeg)
 
 * And after hooking up all the wires and triple checking that they were all connected to the right pins to my disapointment it was a total disaster as the display rendered a bunch of gibberish none of which was even close to resembling a number. And after a couple hours of debugging went by making sure there was nothing wrong with the code, I started unplugging and plugging back in each wire individually and found out that one of the wires (#12 in the diagram) responsible for turning on and off the first digit was interfering with the display of the others (when the wire was plugged in it caused all the other digits to be missing a segment). I figured this must have been due to a shortage causing all the voltage for that segment to flow through the wire back into the Pi (probably because of my failed attempts earlier in the year to try and figure out what each pin did without any resistors attached). And so because I didn't really need a 4th digit I opted to keep that wire unplugged.
   
 ## How to Run it:
 All the wiring should make sense from the diagram above and from the blog post I linked, if not here is a picture of what it looks like in person:
-<INSERT IMAGE OF PI AND WIRING>
+![Wiring](https://github.com/jyaacoub/COVID_Kingston_Scraper/blob/master/resources/Wiring.jpeg)
 I have also added a bunch of comments in the `main.py` file that reiterate this info.
   
 So once you have all the wiring don you can run the `main.py` file and have it display the active cases and community status color. 
@@ -35,3 +35,4 @@ One thing to note is that I set this up to run a subprocess to render the displa
 
 ## Final Product:
 
+![Final Product](https://github.com/jyaacoub/COVID_Kingston_Scraper/blob/master/resources/Final%20product.jpeg)

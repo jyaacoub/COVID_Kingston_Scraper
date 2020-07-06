@@ -193,6 +193,7 @@ def main():
                 # Updates the color:
                 displayColor(color=communityStatus)
 
+
 try:
     main()
 

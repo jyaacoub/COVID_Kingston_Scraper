@@ -162,6 +162,9 @@ def main():
                 renderNumber.join()
                 print("Alive status:", renderNumber.is_alive())
 
+                # Reseting the pins:
+                displayDigit(' ')
+
         else:
             # Checks the cases every 15 min
             if (currTime.tm_min != prevCheckTime.tm_min and

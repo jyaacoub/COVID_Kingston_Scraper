@@ -6,8 +6,7 @@ from selenium.webdriver.common.keys import Keys
 import time
 
 LINK = "https://www.kflaph.ca/en/healthy-living/status-of-cases-in-kfla.aspx"
-LINK2 = "https://app.powerbi.com/view?r=eyJrIjoiNTJjYWM2NjgtNTRhZi00NDcyLTkxYzEtZDlmZTZjMDRmN2QzIiwidCI6Ijk4M2JmOTVjLTAyNDYtNDg5My05MmI4LTgwMWJkNTEwYjRmYSJ9"
-
+LINK2 = "https://app.powerbi.com/view?r=eyJrIjoiOWI2Njc5ZTctZjQ2YS00OGQ4LWEyZmEtNmU0YzBmZmM3N2YwIiwidCI6Ijk4M2JmOTVjLTAyNDYtNDg5My05MmI4LTgwMWJkNTEwYjRmYSJ9"
 
 casesRow = "/html/body/div[1]/ui-view/div/div[1]/div/div/div/div/exploration-container/" \
              "exploration-container-modern/div/div/exploration-host/div/div/exploration/div/explore-canvas-modern/" \
@@ -22,13 +21,13 @@ colorsRow = "/html/body/div[1]/ui-view/div/div[1]/div/div/div/div/exploration-co
 
 colorsXPATH = colorsRow + "/visual-container-modern[{color}]/transform/div/div[3]/div"
 
-WHITE = 'rgba(255, 255, 255, 1)'    # The background color for white
+WHITE = 'rgba(255, 255, 255, 1)'    # The default background color.
 
 
 class Bot:
     def __init__(self):
         op = Options()
-        op.add_argument("--headless")
+        # op.add_argument("--headless")
         op.add_argument("--disable-gpu")
         op.add_argument("--incognito")
         self.driver = webdriver.Chrome(options=op)
@@ -40,8 +39,12 @@ class Bot:
     def quit(self):
         self.driver.quit()
 
-    def requestContent(self, link=LINK2):
+    def requestContent(self, link=LINK):
         self.driver.get(link)
+
+        # Switching to the right frame
+        if link == LINK:
+            self.driver.switch_to.frame(0)
 
     def getCases(self):
         print('\t', end='')
@@ -101,7 +104,7 @@ class Bot:
 
 
 # bot = Bot()
-# bot.requestContent()
+# bot.requestContent(LINK)
 # communityStatus = bot.getCommunityStatus()
 # activeCases = bot.getCases()
 # print("Community Status:|" + communityStatus + '|')

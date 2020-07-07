@@ -104,6 +104,7 @@ def displayDigit(digit):
 # [22] [27] [17] [24]
 def displayNum(number):
     numDigits = len(number)
+    print("Displaying number:", number)
     dif = 4-numDigits
     # This function should only be run as a subprocess
     while True:
@@ -116,7 +117,7 @@ def displayNum(number):
             except:
                 print("error when turning on digit")
 
-            time.sleep(0.001)
+            time.sleep(0.0001)
             GPIO.output(digits[i+dif], 0)
 
 
@@ -199,7 +200,7 @@ def main():
 
 try:
     main()
-
+    #debugDisplay(0.25)
 finally:
     # Termination sequence:
     GPIO.cleanup()

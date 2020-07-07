@@ -27,7 +27,7 @@ WHITE = 'rgba(255, 255, 255, 1)'    # The default background color.
 class Bot:
     def __init__(self):
         op = Options()
-        # op.add_argument("--headless")
+        op.add_argument("--headless")
         op.add_argument("--disable-gpu")
         op.add_argument("--incognito")
         self.driver = webdriver.Chrome(options=op)

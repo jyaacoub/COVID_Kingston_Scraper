@@ -6,25 +6,12 @@ from selenium.webdriver.common.keys import Keys
 import time
 
 LINK = "https://www.kflaph.ca/en/healthy-living/status-of-cases-in-kfla.aspx"
-LINK2 = "https://app.powerbi.com/view?r=eyJrIjoiOWI2Njc5ZTctZjQ2YS00OGQ4LWEyZmEtNmU0YzBmZmM3N2YwIiwidCI6Ijk4M2JmOTVjLTAyNDYtNDg5My05MmI4LTgwMWJkNTEwYjRmYSJ9"
-
-casesRow = "/html/body/div[1]/ui-view/div/div[1]/div/div/div/div/exploration-container/" \
-             "exploration-container-modern/div/div/exploration-host/div/div/exploration/div/explore-canvas-modern/" \
-             "div/div[2]/div/div[2]/div[2]/visual-container-repeat/visual-container-group[8]/transform/div/div[2]"
-
-casesRow = '/html/body/div[1]/ui-view/div/div[1]/div/div/div/div/exploration-container/' \
-            'exploration-container-modern/div/div/exploration-host/div/div/exploration/div/explore-canvas-modern/' \
-            'div/div[2]/div/div[2]/div[2]/visual-container-repeat/visual-container-group[7]/transform/div/div[2]' \
-            '/visual-container-modern'
-
-casesXPATH = casesRow + "/visual-container-modern[{case}]"
+LINK2 = "https://app.powerbi.com/view?r=eyJrIjoiOWI2Njc5ZTctZjQ2YS00OGQ4LWEyZmEtNmU0YzBmZmM3N2YwIiwidCI6Ijk" \
+        "4M2JmOTVjLTAyNDYtNDg5My05MmI4LTgwMWJkNTEwYjRmYSJ9"
 
 colorsRow = "/html/body/div[1]/ui-view/div/div[1]/div/div/div/div/exploration-container/" \
             "exploration-container-modern/div/div/exploration-host/div/div/exploration/div/explore-canvas-modern/" \
             "div/div[2]/div/div[2]/div[2]/visual-container-repeat/visual-container-group[3]/transform/div/div[2]"
-
-
-colorsXPATH = colorsRow + "/visual-container-modern[{color}]/transform/div/div[3]/div"
 
 WHITE = 'rgba(255, 255, 255, 1)'    # The default background color.
 
@@ -55,17 +42,31 @@ class Bot:
         print('\t', end='')
         # Getting the order of the elements:
         # I do this because the order of the elements change everyday, and so this makes it more dynamic
-        elements = self.driver.find_elements(By.XPATH, casesRow)
-        while len(elements) == 0 or len(elements[0].text) == 0:
-            elements = self.driver.find_elements(By.XPATH, casesRow)
+        elements = self.driver.find_elements_by_xpath(
+            '/html/body/div[1]/ui-view/div/div[1]/div/div/div/div/exploration-container/exploration-container-modern/'
+            'div/div/exploration-host/div/div/exploration/div/explore-canvas-modern/div/div[2]/div/div[2]/div[2]/'
+            'visual-container-repeat/visual-container-group')
+
+        totalCaseNumbersRow = None
+
+        for element in elements:
             print("<", end="")
+            if 'Total \nCase\nNumbers' in element.text:
+                totalCaseNumbersRow = element
+                break
+
+        if totalCaseNumbersRow is None:
+            print('Error, couldn\'t find Total Case Numbers row')
+            return
+
         print("Got Total Case Numbers Row!")
+        elements = totalCaseNumbersRow.find_elements_by_xpath('./transform/div/div[2]/visual-container-modern')
 
         numCasesResolved = 0
         numDeaths = 0
         numCasesTot = 0
 
-        for order, elm in enumerate(elements):
+        for elm in elements:
             elmText = elm.text
             # Skipping unimportant elements:
             if elmText == 'Total \nCase\nNumbers' or '# of Health Care Workers Positive' in elm.text:
@@ -108,10 +109,10 @@ class Bot:
                 return colorElm.text.strip()
 
 
-#print("\n", time.strftime("%d %b %H:%M:%S", time.localtime()))
-#bot = Bot()
-#bot.requestContent()
-#communityStatus = bot.getCommunityStatus()
-#activeCases = bot.getCases()
-#print("Community Status:|" + communityStatus + '|')
-#print("Active Cases:", activeCases)
+# print("\n", time.strftime("%d %b %H:%M:%S", time.localtime()))
+# bot = Bot()
+# bot.requestContent()
+# communityStatus = bot.getCommunityStatus()
+# activeCases = bot.getCases()
+# print("Community Status:|" + communityStatus + '|')
+# print("Active Cases:", activeCases)

@@ -32,7 +32,7 @@ WHITE = 'rgba(255, 255, 255, 1)'    # The default background color.
 class Bot:
     def __init__(self):
         op = Options()
-        # op.add_argument("--headless")
+        op.add_argument("--headless")
         op.add_argument("--disable-gpu")
         op.add_argument("--incognito")
         self.driver = webdriver.Chrome(options=op)
@@ -108,10 +108,10 @@ class Bot:
                 return colorElm.text.strip()
 
 
-print("\n", time.strftime("%d %b %H:%M:%S", time.localtime()))
-bot = Bot()
-bot.requestContent()
-communityStatus = bot.getCommunityStatus()
-activeCases = bot.getCases()
-print("Community Status:|" + communityStatus + '|')
-print("Active Cases:", activeCases)
+#print("\n", time.strftime("%d %b %H:%M:%S", time.localtime()))
+#bot = Bot()
+#bot.requestContent()
+#communityStatus = bot.getCommunityStatus()
+#activeCases = bot.getCases()
+#print("Community Status:|" + communityStatus + '|')
+#print("Active Cases:", activeCases)

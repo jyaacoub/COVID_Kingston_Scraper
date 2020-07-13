@@ -70,7 +70,7 @@ class Bot:
                 numCasesResolved = int(elmText.split("\n")[0])
             elif 'Deaths' in elmText:
                 numDeaths = int(elmText.split("\n")[0])
-            else:
+            elif 'of Cases' in elmText:
                 numCasesTot = int(elmText.split("\n")[0])
 
         print("\tnumCasesResolved: ", numCasesResolved)

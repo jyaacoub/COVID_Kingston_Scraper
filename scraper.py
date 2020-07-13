@@ -12,6 +12,11 @@ casesRow = "/html/body/div[1]/ui-view/div/div[1]/div/div/div/div/exploration-con
              "exploration-container-modern/div/div/exploration-host/div/div/exploration/div/explore-canvas-modern/" \
              "div/div[2]/div/div[2]/div[2]/visual-container-repeat/visual-container-group[8]/transform/div/div[2]"
 
+casesRow = '/html/body/div[1]/ui-view/div/div[1]/div/div/div/div/exploration-container/' \
+            'exploration-container-modern/div/div/exploration-host/div/div/exploration/div/explore-canvas-modern/' \
+            'div/div[2]/div/div[2]/div[2]/visual-container-repeat/visual-container-group[7]/transform/div/div[2]' \
+            '/visual-container-modern'
+
 casesXPATH = casesRow + "/visual-container-modern[{case}]"
 
 colorsRow = "/html/body/div[1]/ui-view/div/div[1]/div/div/div/div/exploration-container/" \
@@ -27,7 +32,7 @@ WHITE = 'rgba(255, 255, 255, 1)'    # The default background color.
 class Bot:
     def __init__(self):
         op = Options()
-        op.add_argument("--headless")
+        # op.add_argument("--headless")
         op.add_argument("--disable-gpu")
         op.add_argument("--incognito")
         self.driver = webdriver.Chrome(options=op)
@@ -50,9 +55,9 @@ class Bot:
         print('\t', end='')
         # Getting the order of the elements:
         # I do this because the order of the elements change everyday, and so this makes it more dynamic
-        elements = self.driver.find_elements(By.XPATH, casesRow + '/visual-container-modern')
+        elements = self.driver.find_elements(By.XPATH, casesRow)
         while len(elements) == 0 or len(elements[0].text) == 0:
-            elements = self.driver.find_elements(By.XPATH, casesRow + '/visual-container-modern')
+            elements = self.driver.find_elements(By.XPATH, casesRow)
             print("<", end="")
         print("Got Total Case Numbers Row!")
 
@@ -70,7 +75,7 @@ class Bot:
                 numCasesResolved = int(elmText.split("\n")[0])
             elif 'Deaths' in elmText:
                 numDeaths = int(elmText.split("\n")[0])
-            else:
+            elif 'of Cases' in elmText:
                 numCasesTot = int(elmText.split("\n")[0])
 
         print("\tnumCasesResolved: ", numCasesResolved)
@@ -103,11 +108,10 @@ class Bot:
                 return colorElm.text.strip()
 
 
-# bot = Bot()
-# bot.requestContent(LINK)
-# communityStatus = bot.getCommunityStatus()
-# activeCases = bot.getCases()
-# print("Community Status:|" + communityStatus + '|')
-# print("Active Cases:", activeCases)
-# time.sleep(5)
-# bot.quit()
+print("\n", time.strftime("%d %b %H:%M:%S", time.localtime()))
+bot = Bot()
+bot.requestContent()
+communityStatus = bot.getCommunityStatus()
+activeCases = bot.getCases()
+print("Community Status:|" + communityStatus + '|')
+print("Active Cases:", activeCases)

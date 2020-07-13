@@ -71,7 +71,7 @@ def displayColor(color='White', brightness=0.8):
 
         blue.off()
     elif color == 'Yellow':
-        green.value = 0.26
+        green.value = 0.35
         red.value = 1.0
 
         blue.off()
@@ -117,7 +117,7 @@ def displayNum(number):
             except:
                 print("error when turning on digit")
 
-            time.sleep(0.0001)
+            time.sleep(0.00001)
             GPIO.output(digits[i+dif], 0)
 
 
@@ -155,7 +155,7 @@ def main():
         currTime = time.localtime()
 
         # Turns off during the night:
-        if currTime.tm_hour > 22 or currTime.tm_hour < 6:
+        if currTime.tm_hour >= 22 or currTime.tm_hour < 6:
             displayColor(color='None')
             if renderNumber.is_alive():
                 print("Terminating")
@@ -188,7 +188,7 @@ def main():
                     renderNumber.start()
 
                     # Flashes the color to show that the number has been updated
-                    for x in range(4):
+                    for x in range(60):
                         displayColor(color='White', brightness=1.0)
                         time.sleep(0.5)
                         displayColor(color='None')

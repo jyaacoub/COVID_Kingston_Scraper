@@ -3,7 +3,7 @@
 ## Why?
 This is a project I started to help me be more up to date with how many active cases of COVID-19 there are in my area, and because I wanted to become more familiar with the Rasberry Pi and how to use it to webscrape the internet. 
 
-The website I scraped from: https://app.powerbi.com/view?r=eyJrIjoiNTJjYWM2NjgtNTRhZi00NDcyLTkxYzEtZDlmZTZjMDRmN2QzIiwidCI6Ijk4M2JmOTVjLTAyNDYtNDg5My05MmI4LTgwMWJkNTEwYjRmYSJ9
+The website I scraped from: https://www.kflaph.ca/en/healthy-living/status-of-cases-in-kfla.aspx
 
 The data I scraped from the site would be used to display the currently active cases on a 7-segment display and the community status (red, orange, yellow, green) with an RBG LED. 
 
@@ -24,7 +24,7 @@ The data I scraped from the site would be used to display the currently active c
 * And after hooking up all the wires and triple checking that they were all connected to the right pins to my disapointment it was a total disaster as the display rendered a bunch of gibberish none of which was even close to resembling a number. And after a couple hours of debugging went by making sure there was nothing wrong with the code, I started unplugging and plugging back in each wire individually and found out that one of the wires (#12 in the diagram) responsible for turning on and off the first digit was interfering with the display of the others (when the wire was plugged in it caused all the other digits to be missing a segment). I figured this must have been due to a shortage causing all the voltage for that segment to flow through the wire back into the Pi (probably because of my failed attempts earlier in the year to try and figure out what each pin did without any resistors attached). And so because I didn't really need a 4th digit I opted to keep that wire unplugged.
   
 ## How to Run it:
-All the wiring should make sense from the diagram above and from the blog post I linked, if not here is a picture of what it looks like in person:
+All the wiring should make sense from the diagram above and from the blog post I linked, if not here is a picture of what it looks like in person (I removed the 7-segment display in the middle so you can see it better):
 ![Wiring](https://github.com/jyaacoub/COVID_Kingston_Scraper/blob/master/resources/Wiring.jpeg)
 I have also added a bunch of comments in the `main.py` file that reiterate this info.
   

@@ -31,7 +31,7 @@ class Bot:
     def quit(self):
         self.driver.quit()
 
-    def requestContent(self, link=LINK):
+    def requestContent(self, link=LINK2):
         self.driver.get(link)
 
         # Switching to the right frame

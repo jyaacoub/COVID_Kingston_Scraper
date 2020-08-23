@@ -28,7 +28,7 @@ All the wiring should make sense from the diagram above and from the blog post I
 ![Wiring](https://github.com/jyaacoub/COVID_Kingston_Scraper/blob/master/resources/Wiring.jpeg)
 I have also added a bunch of comments in the `main.py` file that reiterate this info.
   
-So once you have all the wiring don you can run the `main.py` file and have it display the active cases and community status color. 
+So once you have all the wiring done you can run the `main.py` file and have it display the active cases and community status color. 
 
 One thing to note is that I set this up to run a subprocess to render the display, and so when it does an update it doesn't interfere with what you are doing with it flashing on and off. I have also set a timer so it turns off during the night so that I can have it stay in my room without disrupting my sleep.
 
